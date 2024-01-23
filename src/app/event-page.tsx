@@ -1,5 +1,5 @@
 import { UserEvents } from "./types";
-import Event from "@/components/event"
+import Event from "@/components/event";
 import { Button } from "@/components/ui/button";
 
 interface EventPageProps {
@@ -18,12 +18,14 @@ export default function EventPage({
         {userEvents &&
           userEvents.events.map((lumaEvent) => (
             <Button
-                className="border p-8 rounded flex flex-col"
-                disabled={!lumaEvent.role.is_manager}
-                onClick={() => onEventClick(lumaEvent)}
-                >
-                <h1 className="text-lg font-bold">{lumaEvent.event.name}</h1>
-                {lumaEvent.role.is_manager && <p className="text-xs text-left">Manage Access</p>}
+              className="border p-8 rounded flex flex-col"
+              disabled={!lumaEvent.role.is_manager}
+              onClick={() => onEventClick(lumaEvent)}
+            >
+              <h1 className="text-lg font-bold">{lumaEvent.event.name}</h1>
+              {lumaEvent.role.is_manager && (
+                <p className="text-xs text-left">Manage Access</p>
+              )}
             </Button>
           ))}
       </div>

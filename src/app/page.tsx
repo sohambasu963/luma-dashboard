@@ -17,7 +17,7 @@ export default function Home() {
       console.log("Not Signed In");
     } else {
       let e = json.message as UserEvents;
-      setUserEvents(e); 
+      setUserEvents(e);
     }
   };
 
@@ -29,18 +29,15 @@ export default function Home() {
     console.log(lumaEvent);
     setSelectedEvent(lumaEvent);
     setShowDashboard(true);
-  }
+  };
 
   return (
     <div>
-      {userEvents && !showDashboard &&  (
-        <EventPage
-          userEvents={userEvents}
-          onEventClick={handleEventClick}
-        />
+      {userEvents && !showDashboard && (
+        <EventPage userEvents={userEvents} onEventClick={handleEventClick} />
       )}
       {selectedEvent && showDashboard && (
-        <DashboardPage />
+        <DashboardPage lumaEvent={selectedEvent} />
       )}
     </div>
   );
