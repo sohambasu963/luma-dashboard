@@ -1,10 +1,9 @@
-import { NextResponse } from 'next/server';
-import { parseCookie } from '../utils';
+import { NextResponse } from "next/server";
+import { parseCookie } from "../utils";
 
 export async function POST(request: Request) {
+  const { email, code } = await request.json();
 
-  const { email, code } = await request.json()
-  
   let initial = await fetch("https://api.lu.ma/auth/email/sign-in-with-code", {
     credentials: "include",
     headers: {
@@ -26,19 +25,17 @@ export async function POST(request: Request) {
     method: "POST",
     mode: "cors",
   });
-  
 
   let data = await initial.json();
-  let cookies = parseCookie(initial.headers.get("Set-Cookie") ?? "")
+  let cookies = parseCookie(initial.headers.get("Set-Cookie") ?? "");
 
-  //console.log(initial.headers.get("Set-Cookie")) 
+  //console.log(initial.headers.get("Set-Cookie"))
   //console.log(parseCookie(initial.headers.get("Set-Cookie") ?? ""))
-  
+
   return new Response(JSON.stringify(data), {
     status: 200,
-    headers: { 
-        'Set-Cookie': `${cookies.key}=${cookies.value}` ?? undefined, 
+    headers: {
+      "Set-Cookie": `${cookies.key}=${cookies.value}` ?? undefined,
     } as HeadersInit,
   });
-  
 }
