@@ -68,7 +68,7 @@ export function CardLogin() {
   }
 
   async function onCodeSubmit(data: z.infer<typeof SignInSchema>) {
-    console.log("Code: ", data.pass);
+    console.log("onCodeSubmit: ", data.pass);
     try {
       let output = await fetch("/api/signinwithcode", {
         credentials: "include",
@@ -86,6 +86,24 @@ export function CardLogin() {
       console.log("Name: " + json.name);
       router.push("/");
       // getUserEvents();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async function onPasswordSubmit(data: z.infer<typeof SignInSchema>) {
+    try {
+      let output = await fetch("/api/signinwithpassword", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: '{"email":"' + email + '","password":"' + data.pass + '"}',
+        method: "POST",
+      });
+
+      let json = await output.json();
+      setStep("done");
+      setName(json.name);
     } catch (e) {
       console.log(e);
     }
@@ -150,6 +168,43 @@ export function CardLogin() {
                 id="code"
                 type="text"
                 placeholder="Enter your code"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button
+              className="w-full bg-primary hover:bg-[#083970] transition-colors duration-500 ease-in-out"
+              type="submit"
+            >
+              Submit
+            </Button>
+          </CardFooter>
+        </form>
+      )}
+      {step === "password" && (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            onPasswordSubmit({ pass: password });
+          }}
+        >
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-3xl font-eb-garamond">
+              Enter Password
+            </CardTitle>
+            <CardDescription className="font-bricolage-grotesque">
+              Enter your password below
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                type="text"
+                placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
