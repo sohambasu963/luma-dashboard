@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { UserEvents, Event } from "./types";
-import EventPage from "@/app/event-page";
-import DashboardPage from "@/app/dashboard-page";
+import EventPage from "@/app/events/page";
+import DashboardPage from "@/app/dashboard/page";
 
 export default function Home() {
   const [userEvents, setUserEvents] = useState<UserEvents>();

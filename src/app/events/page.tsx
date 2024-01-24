@@ -1,4 +1,4 @@
-import { UserEvents } from "./types";
+import { UserEvents } from "../types";
 import Event from "@/components/event";
 import { Button } from "@/components/ui/button";
 
@@ -16,9 +16,10 @@ export default function EventPage({
       <h1 className="mt-8 text-2xl">Luma Events</h1>
       <div className="grid grid-cols-3 gap-6 gap-x-12 mt-8">
         {userEvents &&
-          userEvents.events.map((lumaEvent) => (
+          userEvents.events.map((lumaEvent, index) => (
             <Button
               className="border p-8 rounded flex flex-col"
+              key={index}
               disabled={!lumaEvent.role.is_manager}
               onClick={() => onEventClick(lumaEvent)}
             >
