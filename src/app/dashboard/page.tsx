@@ -20,31 +20,20 @@ export default function DashboardPage({ lumaEvent }: DashboardPageProps) {
     if (response.status === 401) {
       console.log("Not Signed In");
     } else {
-      console.log("Event Info");
       console.log(json.message);
     }
 
-    return json.message;
-  };
-
-  const getAllGuestEntries = async () => {
-    let paginationCursor = '';
-    while (true) {
-        const guestEntries = await getGuestEntries(paginationCursor);
-        setGuestData(prevGuestData => [...prevGuestData, ...guestEntries.entries]);
-        if (!guestEntries.has_more) {
-            break;
-        } else {
-            paginationCursor = guestEntries.next_cursor;
-        }
+    setGuestData(prevGuestData => [...prevGuestData, ...json.message.entries]);
+    if (json.message.has_more) {
+      getGuestEntries(json.message.next_cursor)
     }
-  }
+  };
 
 
   useEffect(() => {
     if (!initialized.current) {
         initialized.current = true;
-        getAllGuestEntries();
+        getGuestEntries("");
     }
   }, []);
 
